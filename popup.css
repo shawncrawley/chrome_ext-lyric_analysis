@@ -1,0 +1,20 @@
+body {
+    width: 175px;
+}
+.hidden {
+    display: none;
+}
+.song {
+    display: flex;
+}
+.song-name {
+    font-weight: bold;
+    margin: 10px;
+}
+.swears {
+    display: flex;
+}
+.swears img {
+    height: 25px;
+    margin: 5px;
+}

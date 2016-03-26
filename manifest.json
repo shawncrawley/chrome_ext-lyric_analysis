@@ -1,0 +1,26 @@
+{
+  "name": "Should I Listen?",
+  "version": "1.0",
+  "description": "This extension links with Spotify to analyze and report on the lyrical content of the songs you might want to listen to.",
+  "background": { 
+    "scripts": ["jquery.min.js", "background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://play.spotify.com/album/*"],
+      "js": ["jquery.min.js", "content.js"]
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "https://ajax.googleapis.com/",
+    "http://api.musixmatch.com/ws/1.1/*"
+  ],
+  "page_action": {
+    "default_icon": "icon.png",
+    "default_name": "Analyze Album Lyrics",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 2
+}
