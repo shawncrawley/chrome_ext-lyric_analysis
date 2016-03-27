@@ -1,14 +1,14 @@
 // Regex-pattern to check URLs against.
 var urlRegex = /^https?:\/\/(?:[^\.]+\.)?play\.spotify\.com\/album/;
 var swearImgDict = {
-    'shit': 'images/poo.svg',
-    'damn': '/images/dam.svg',
-    ' hell ':'images/flame.svg',
-    'fuck': 'images/bomb.svg',
-    'bitch':'images/dog.svg',
-    'bastard':'images/baby.svg',
-    ' ass ': 'images/donkey.svg',
-    'sex ': 'images/love.svg'
+    '(^s|s)hit[.!,;]?': 'images/poo.svg',
+    '(^d|d)amn[.!,;]?': '/images/dam.svg',
+    '(^h|[^A-Za-z]h)ell[^A-Za-z]':'images/flame.svg',
+    '(^f|f)uck': 'images/bomb.svg',
+    '(^b|b)itch': 'images/dog.svg',
+    '(^b|b)astard': 'images/baby.svg',
+    '(^a|[ ]a)ss([ ]|[.!,])': 'images/donkey.svg',
+    '(^s|[ ]s)ex([ ]|[.!,])': 'images/love.svg'
 };
 
 var swears = Object.keys(swearImgDict);
@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                     } else {
                         listExists = false;
                         swears.forEach(function(swear) {
-                            if (lyrics.indexOf(swear) !== -1) {
+                            if (lyrics.search(new RegExp(swear, 'gi')) !== -1) {
                                 if (listExists) {
                                     lyricsInfo[albumInfo.tracks[track]].push(swearImgDict[swear]);
                                 } else {
