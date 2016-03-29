@@ -1,11 +1,15 @@
 body {
-    width: 175px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }
 .hidden {
     display: none;
 }
 .song {
     display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
 }
 .song-name {
     font-weight: bold;
@@ -17,4 +21,8 @@ body {
 .swears img {
     height: 25px;
     margin: 5px;
+}
+
+input[type=checkbox] {
+    flex: 0 0 auto;
 }

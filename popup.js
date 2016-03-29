@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+    $('#btn-disable-songs').on('click', function () {
+        var songsToDisable = [];
+        $('input:checked').each(function () {
+            songsToDisable.push($(this).val());
+        });
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {'songsToDisable': songsToDisable});
+        });
+    });
+
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, 'getAlbumInfo', null, function (response) {
             if (response.hasOwnProperty('lyricsInfo')) {
@@ -11,14 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     var key,
                         lyricResultsHtml = '',
-                        imgPath,
                         i,
                         numSwears,
                         swearsList;
 
                     for (key in response.lyricsInfo) {
                         if (response.lyricsInfo.hasOwnProperty(key)) {
-                            lyricResultsHtml += '<div class="song"><span class="song-name">' + key + '</span><div class="swears">';
+                            lyricResultsHtml += '<div class="song">' +
+                                '<input type="checkbox" value="' + key + '">' +
+                                '<span class="song-name">' + key + '</span>' +
+                                '<div class="swears">';
                             swearsList = response.lyricsInfo[key];
                             numSwears = swearsList.length;
                             for (i = 0; i < numSwears; i++) {
@@ -30,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     $('#results').html(lyricResultsHtml);
                     $('#status').addClass('hidden');
+                    $('#btn-disable-songs').removeClass('hidden');
                 }
             }
         })

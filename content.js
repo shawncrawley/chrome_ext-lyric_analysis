@@ -1,8 +1,10 @@
+var $albumContents;
+
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message === 'getAlbumInfo') {
-        var $albumIframe = $('iframe[id*="browse-app-spotify:app:album"]').last();
-        var $albumTracks = $albumIframe.contents().find('.tracklist-album').find('tbody').find('tr[tabindex]');
-        var $albumArtist = $($albumIframe.contents().find('a[href*="https://play.spotify.com/artist"]')[0]).text();
+        $albumContents = $('iframe[id*="browse-app-spotify:app:album"]').last().contents();
+        var $albumTracks = $albumContents.find('.tracklist-album').find('tbody').find('tr[tabindex]');
+        var $albumArtist = $($albumContents.find('a[href*="https://play.spotify.com/artist"]')[0]).text();
         var length = $albumTracks.length;
         var albumInfo = {
             'artist': $albumArtist,
@@ -18,6 +20,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             albumInfo.tracks.push(trackName);
         }
         chrome.runtime.sendMessage({text: "albumInfo", albumInfo: albumInfo}, sendResponse);
+    } else {
+        message.songsToDisable.forEach(function (song) {
+            $albumContents.find('tr[data-log-data*=' + song).addClass('unavailable');
+        })
     }
     return true;
 });
