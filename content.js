@@ -38,6 +38,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                     window.setTimeout(function () {
                         $appPlayerContents.find('#next')[0].click();
                     }, 1000);
+                    return true;
                 }
             });
         });
