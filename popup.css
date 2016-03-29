@@ -26,3 +26,6 @@ body {
 input[type=checkbox] {
     flex: 0 0 auto;
 }
+button {
+    margin: 7px;
+}

@@ -10,6 +10,7 @@ var swearImgDict = {
     '(^a|[ ]a)ss([ ]|[.!,])': 'images/donkey.svg',
     '(^s|[ ]s)ex([ ]|[.!,])': 'images/love.svg'
 };
+var questionImg = 'images/question.svg';
 
 var swears = Object.keys(swearImgDict);
 
@@ -28,6 +29,7 @@ chrome.tabs.onUpdated.addListener(checkForValidUrl);
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.text === 'albumInfo') {
         var albumInfo,
+            artist,
             lyricsInfo,
             unauthorized = false,
             listExists,
@@ -36,29 +38,32 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             checkNextTrack;
 
         albumInfo = message.albumInfo;
+        artist = albumInfo.artist;
         numTracks = albumInfo.tracks.length;
         lyricsInfo = {};
 
-        requestLyrics = function (track) {
-
+        requestLyrics = function (trackIndex) {
+            var track = albumInfo.tracks[trackIndex];
             $.ajax({
                 type: 'GET',
                 url: 'http://api.musixmatch.com/ws/1.1/matcher.lyrics.get',
                 dataType: 'json',
                 contentType: 'json',
                 data: {
-                    'q_artist': albumInfo.artist,
-                    'q_track': albumInfo.tracks[track],
+                    'q_artist': artist,
+                    'q_track': track,
                     'format': 'json',
                     'apikey': 'fc3b11535b1c34769b61b84e04e46ddd'
                 },
                 error: function () {
                     console.error('Error while processing the following lyric request:');
-                    console.error(albumInfo.tracks[track] + ' by ' + albumInfo.artist);
-                    checkNextTrack(track, lyricsInfo);
+                    console.error(track + ' by ' + artist);
+                    checkNextTrack(trackIndex, lyricsInfo);
                 },
                 success: function (response) {
-                    var lyrics = response.message.body.lyrics.lyrics_body;
+                    var lyricsObj = response.message.body.lyrics;
+                    var lyrics = lyricsObj.lyrics_body;
+                    var explicit = lyricsObj.explicit;
                     if (lyrics === '') {
                         unauthorized = true;
                     } else {
@@ -66,15 +71,18 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                         swears.forEach(function(swear) {
                             if (lyrics.search(new RegExp(swear, 'gi')) !== -1) {
                                 if (listExists) {
-                                    lyricsInfo[albumInfo.tracks[track]].push(swearImgDict[swear]);
+                                    lyricsInfo[track].push(swearImgDict[swear]);
                                 } else {
-                                    lyricsInfo[albumInfo.tracks[track]] = [swearImgDict[swear]];
+                                    lyricsInfo[track] = [swearImgDict[swear]];
                                     listExists = true;
                                 }
                             }
                         });
+                        if (lyricsInfo[track] === undefined && (explicit || albumInfo.explicit[track])) {
+                            lyricsInfo[track] = [questionImg];
+                        }
                     }
-                    checkNextTrack(track, lyricsInfo);
+                    checkNextTrack(trackIndex, lyricsInfo);
                 }
             });
         };
