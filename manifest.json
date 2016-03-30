@@ -1,8 +1,13 @@
 {
-  "name": "Should I Listen?",
+  "name": "Spot-if-I Should Listen",
   "version": "1.0",
   "description": "This extension links with Spotify to analyze and report on the lyrical content of the songs you might want to listen to.",
-  "background": { 
+  "icons": {
+    "16": "images/icon_16.png",
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
+  },
+  "background": {
     "scripts": ["jquery.min.js", "background.js"],
     "persistent": false
   },
@@ -18,7 +23,10 @@
     "http://api.musixmatch.com/ws/1.1/*"
   ],
   "page_action": {
-    "default_icon": "icon.png",
+    "default_icon": {
+      "19": "images/icon_19.png",
+      "38": "images/icon_38.png"
+    },
     "default_name": "Analyze Album Lyrics",
     "default_popup": "popup.html"
   },
