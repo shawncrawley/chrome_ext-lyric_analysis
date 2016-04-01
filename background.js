@@ -1,14 +1,24 @@
+/*jslint
+ browser, devel
+ */
 /*global
- chrome, $, console
+ chrome, $
+ */
+/*property
+ addListener, ajax, albumInfo, apikey, artist, body, contentType, data,
+ dataType, error, explicit, forEach, format, hide, keys, length, lyrics,
+ lyricsInfo, lyrics_body, message, onMessage, onUpdated, pageAction, push,
+ q_artist, q_track, runtime, search, show, success, tabs, test, text,
+ tracks, type, url
  */
 
 (function () {
     'use strict';
 
-    var urlRegex,
-        swearImgDict,
-        questionImg,
-        swears;
+    var urlRegex;
+    var swearImgDict;
+    var questionImg;
+    var swears;
 
     // Regex-pattern to check URLs against.
     urlRegex = /^https?:\/\/(?:[^\.]+\.)?play\.spotify\.com\/album/;
@@ -27,7 +37,7 @@
     swears = Object.keys(swearImgDict);
 
     //noinspection JSUnusedLocalSymbols
-    function checkForValidUrl(tabId, changeInfo, tab) {
+    function checkForValidUrl(tabId, ignore, tab) {
         if (urlRegex.test(tab.url)) {
             chrome.pageAction.show(tabId);
         } else {
@@ -38,17 +48,18 @@
     chrome.tabs.onUpdated.addListener(checkForValidUrl);
 
 //noinspection JSCheckFunctionSignatures
-    chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function (message, ignore, sendResponse) {
         if (message.text === 'albumInfo') {
-            var albumInfo,
-                artist,
-                lyricsInfo,
-                unauthorized = false,
-                listExists,
-                numTracks,
-                requestLyrics,
-                checkNextTrack;
+            var albumInfo;
+            var artist;
+            var lyricsInfo;
+            var unauthorized;
+            var listExists;
+            var numTracks;
+            var requestLyrics;
+            var checkNextTrack;
 
+            unauthorized = false;
             albumInfo = message.albumInfo;
             artist = albumInfo.artist;
             numTracks = albumInfo.tracks.length;
@@ -73,9 +84,9 @@
                         checkNextTrack(trackIndex, lyricsInfo);
                     },
                     success: function (response) {
-                        var lyricsObj,
-                            lyrics,
-                            explicit;
+                        var lyricsObj;
+                        var lyrics;
+                        var explicit;
 
                         lyricsObj = response.message.body.lyrics;
                         lyrics = lyricsObj.lyrics_body;
@@ -104,7 +115,7 @@
             };
 
             checkNextTrack = function (track, lyricsInfo) {
-                track++;
+                track += 1;
                 if (track < numTracks) {
                     requestLyrics(track);
                 } else {

@@ -1,3 +1,7 @@
+html {
+    min-width: 250px;
+    background-color: #D8EC14;
+}
 body {
     display: flex;
     flex-flow: column nowrap;

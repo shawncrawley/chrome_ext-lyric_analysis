@@ -1,5 +1,13 @@
+/*jslint
+ browser, devel, this
+ */
 /*global
- chrome, $, console, document, window
+ chrome, $, window
+ */
+/*property
+ active, addClass, addEventListener, close, currentWindow, each, forEach,
+ hasOwnProperty, html, id, keys, lyricsInfo, on, prop, push, query,
+ removeClass, sendMessage, songsToDisable, tabs, text, val
  */
 (function () {
     'use strict';
@@ -31,12 +39,9 @@
 
         chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
             chrome.tabs.sendMessage(tabs[0].id, 'getAlbumInfo', null, function (response) {
-                var lyricsInfo,
-                    key,
-                    lyricResultsHtml = '',
-                    i,
-                    numSwears,
-                    swearsList;
+                var lyricsInfo;
+                var lyricResultsHtml;
+                var swearsList;
 
                 if (response.hasOwnProperty('lyricsInfo')) {
                     lyricsInfo = response.lyricsInfo;
@@ -47,20 +52,18 @@
                         $('#status').addClass('hidden');
                         $('#results').html('Sorry! We are not authorized to analyze these lyrics!');
                     } else {
-                        for (key in lyricsInfo) {
-                            if (lyricsInfo.hasOwnProperty(key)) {
-                                lyricResultsHtml += '<div class="song">' +
+                        lyricResultsHtml = '';
+                        Object.keys(lyricsInfo).forEach(function (key) {
+                            lyricResultsHtml += '<div class="song">' +
                                     '<input type="checkbox" value="' + key + '">' +
                                     '<span class="song-name">' + key + '</span>' +
                                     '<div class="swears">';
-                                swearsList = lyricsInfo[key];
-                                numSwears = swearsList.length;
-                                for (i = 0; i < numSwears; i++) {
-                                    lyricResultsHtml += '<img src="' + swearsList[i] + '"/>';
-                                }
-                                lyricResultsHtml += '</div></div>';
-                            }
-                        }
+                            swearsList = lyricsInfo[key];
+                            swearsList.forEach(function (swearImgSrc) {
+                                lyricResultsHtml += '<img src="' + swearImgSrc + '"/>';
+                            });
+                            lyricResultsHtml += '</div></div>';
+                        });
 
                         $('#results').html(lyricResultsHtml);
                         $('#status').addClass('hidden');
