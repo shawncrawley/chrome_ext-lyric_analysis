@@ -28,6 +28,9 @@
         var observer;
         var albumInfo;
         var trackName;
+        var rawTrackJson;
+        var validTrackJson;
+        var dashIndex;
 
         if (message === 'getAlbumInfo') {
             $albumContents = $('iframe[id*="app-spotify:app:album"]').last().contents();
@@ -43,12 +46,23 @@
 
             $albumTracks.each(function () {
                 $trackElement = $(this);
-                trackName = JSON.parse($trackElement.attr('data-log-data')).name;
+                rawTrackJson = $trackElement.attr('data-log-data');
+
+                dashIndex = rawTrackJson.indexOf(' -');
+                if (dashIndex !== -1) {
+                    validTrackJson = rawTrackJson.substring(0, dashIndex) + '"\n}';
+                } else {
+                    validTrackJson = rawTrackJson;
+                }
+                trackName = JSON.parse(validTrackJson).name;
+
                 parenthIndex = trackName.indexOf(' (');
                 if (parenthIndex !== -1) {
                     trackName = trackName.substring(0, parenthIndex);
                 }
+
                 albumInfo.tracks.push(trackName);
+
                 if ($trackElement.find('.tl-explicit').length !== 0) {
                     albumInfo.explicit[trackName] = true;
                 }
