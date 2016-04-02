@@ -1,5 +1,5 @@
 /*jslint
- browser, devel, this
+ browser, this
  */
 /*global
  chrome, $, MutationObserver, window
@@ -19,6 +19,7 @@
     chrome.runtime.onMessage.addListener(function (message, ignore, sendResponse) {
         var $albumTracks;
         var $albumArtist;
+        var $albumName;
         var $trackElement;
         var $appPlayerContents;
         var parenthIndex;
@@ -30,9 +31,11 @@
 
         if (message === 'getAlbumInfo') {
             $albumContents = $('iframe[id*="app-spotify:app:album"]').last().contents();
+            $albumName = $albumContents.find('.h-title').text().replace(/[ ]/g, '-');
             $albumTracks = $albumContents.find('.tracklist-album').find('tbody').find('tr[tabindex]');
             $albumArtist = $($albumContents.find('a[href*="https://play.spotify.com/artist"]')[0]).text();
             albumInfo = {
+                'name': $albumName,
                 'artist': $albumArtist,
                 'tracks': [],
                 'explicit': {}

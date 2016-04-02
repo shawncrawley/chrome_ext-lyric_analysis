@@ -8,13 +8,13 @@
     "128": "images/icon_128.png"
   },
   "background": {
-    "scripts": ["jquery.min.js", "background.js"],
+    "scripts": ["js/jquery.min.js", "js/background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
       "matches": ["https://play.spotify.com/*"],
-      "js": ["jquery.min.js", "content.js"]
+      "js": ["js/jquery.min.js", "js/content.js"]
     }
   ],
   "permissions": [
@@ -28,7 +28,7 @@
       "38": "images/icon_38.png"
     },
     "default_name": "Analyze Album Lyrics",
-    "default_popup": "popup.html"
+    "default_popup": "html/popup.html"
   },
   "manifest_version": 2
 }

@@ -1,5 +1,5 @@
 /*jslint
- browser, devel, this
+ browser, this
  */
 /*global
  chrome, $, window
@@ -59,8 +59,8 @@
                                     '<span class="song-name">' + key + '</span>' +
                                     '<div class="swears">';
                             swearsList = lyricsInfo[key];
-                            swearsList.forEach(function (swearImgSrc) {
-                                lyricResultsHtml += '<img src="' + swearImgSrc + '"/>';
+                            swearsList.forEach(function (swearDict) {
+                                lyricResultsHtml += '<img title="' + swearDict.tooltip + '" src="' + swearDict.imgSrc + '"/>';
                             });
                             lyricResultsHtml += '</div></div>';
                         });
