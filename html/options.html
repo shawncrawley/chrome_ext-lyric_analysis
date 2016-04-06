@@ -11,84 +11,88 @@
 <div id="container-title">
     <img src="../images/icon_128.png">
     <h1>Spot-if-I Should Listen Options</h1>
+    <button type="button" id="btn-save-options">Save Options</button>
 </div>
 <div id="icon-help-1" class="icon-help">?</div>
-<h3>Choose which words you want to be alerted of, or add your own:</h3>
-<div id="container-options">
-    <div class="option">
-        <img src="../images/poo.svg" title="S**T">
-        <div class="slider">
-            <input type="checkbox" value="(^s|s)hit[.!,;]?" id="sh-word" checked />
-            <label for="sh-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/dam.svg" title="D**N">
-        <div class="slider">
-            <input type="checkbox" value="(^d|d)amn[.!,;]?" id="d-word" class="slider" checked />
-            <label for="d-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/flame.svg" title="H**L">
-        <div class="slider">
-            <input type="checkbox" value="(^h|[^A-Za-z]h)ell[^A-Za-z]" id="h-word" class="slider" checked />
-            <label for="h-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/bomb.svg" title="F**K">
-        <div class="slider">
-            <input type="checkbox" value="(^f|f)uck" id="f-word" class="slider" checked />
-            <label for="f-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/dog.svg" title="B**CH">
-        <div class="slider">
-            <input type="checkbox" value="(^b|b)itch" id="bi-word" class="slider" checked />
-            <label for="bi-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/baby.svg" title="BA**ARD">
-        <div class="slider">
-            <input type="checkbox" value="(^b|b)astard" id="ba-word" class="slider" checked />
-            <label for="ba-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/donkey.svg" title="A**">
-        <div class="slider">
-            <input type="checkbox" value="(^a|[ ]a)ss([ ]|[.!,])" id="a-word" class="slider" checked />
-            <label for="a-word"></label>
-        </div>
-    </div>
-
-    <div class="option">
-        <img src="../images/love.svg" title="S**">
-        <div class="slider">
-            <input type="checkbox" value="(^s|[ ]s)ex([ ]|[.!,])" id="se-word" class="slider" checked />
-            <label for="se-word"></label>
-        </div>
-    </div>
-</div>
+<h3>Choose which words you want to be alerted of, or add your own</h3>
 <div id="container-addWord">
     <div id="icon-help-2" class="icon-help">?</div>
     <label for="inpt-txt-word">Add a word: </label>
     <input type="text" id="inpt-txt-word">
     <button type="button" id="btn-add-word">Add</button>
 </div>
-<br><br><br>
-<button type="button" id="btn-save-options">Save Options</button>
-<button type="button" id="btn-test">Test</button>
-<br><br>
+<br>
+<div id="container-options">
+    <h2>Standard Options</h2>
+    <div id="standard-options">
+        <div class="option">
+            <img src="../images/poo.svg" title="S**T">
+            <div class="slider">
+                <input type="checkbox" value="(^s|s)hit[.!,;]?" id="sh-word" checked />
+                <label for="sh-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/dam.svg" title="D**N">
+            <div class="slider">
+                <input type="checkbox" value="(^d|d)amn[.!,;]?" id="d-word" class="slider" checked />
+                <label for="d-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/flame.svg" title="H**L">
+            <div class="slider">
+                <input type="checkbox" value="(^h|[^A-Za-z]h)ell[^A-Za-z]" id="h-word" class="slider" checked />
+                <label for="h-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/bomb.svg" title="F**K">
+            <div class="slider">
+                <input type="checkbox" value="(^f|f)uck" id="f-word" class="slider" checked />
+                <label for="f-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/dog.svg" title="B**CH">
+            <div class="slider">
+                <input type="checkbox" value="(^b|b)itch" id="bi-word" class="slider" checked />
+                <label for="bi-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/baby.svg" title="BA**ARD">
+            <div class="slider">
+                <input type="checkbox" value="(^b|b)astard" id="ba-word" class="slider" checked />
+                <label for="ba-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/donkey.svg" title="A**">
+            <div class="slider">
+                <input type="checkbox" value="(^a|[ ]a)ss([ ]|[.!,])" id="a-word" class="slider" checked />
+                <label for="a-word"></label>
+            </div>
+        </div>
+
+        <div class="option">
+            <img src="../images/love.svg" title="S**">
+            <div class="slider">
+                <input type="checkbox" value="(^s|[ ]s)ex([ ]|[.!,])" id="se-word" class="slider" checked />
+                <label for="se-word"></label>
+            </div>
+        </div>
+    </div>
+    <h2>User-defined Options</h2>
+    <div id="user-options">
+    </div>
+</div>
 <div id="status"></div>
 </body>
 </html>

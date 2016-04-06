@@ -17,8 +17,44 @@
     var urlRegex = /^https?:\/\/(?:[^\.]+\.)?play\.spotify\.com\/album/;
     var explicitDict;
     var unknownDict;
+    var swearDict;
+    var regexStrings;
     var checkedAlbums = {};
 
+    swearDict = {
+        '(^s|s)hit[.!,;]?': {
+            'imgSrc': '../images/poo.svg',
+            'tooltip': 's**t'
+        },
+        '(^d|d)amn[.!,;]?': {
+            'imgSrc': '../images/dam.svg',
+            'tooltip': 'd**n'
+        },
+        '(^h|[^AZaz]h)ell[^A-Za-z]': {
+            'imgSrc': '../images/flame.svg',
+            'tooltip': 'h**l'
+        },
+        '(^f|f)uck': {
+            'imgSrc': '../images/bomb.svg',
+            'tooltip': 'f**k'
+        },
+        '(^b|b)itch': {
+            'imgSrc': '../images/dog.svg',
+            'tooltip': 'b**ch'
+        },
+        '(^b|b)astard': {
+            'imgSrc': '../images/baby.svg',
+            'tooltip': 'ba***rd'
+        },
+        '(^a|[ ]a)ss([ ]|[.!,])': {
+            'imgSrc': '../images/donkey.svg',
+            'tooltip': 'a**'
+        },
+        '(^s|[ ]s)ex([ ]|[.!,])': {
+            'imgSrc': '../images/love.svg',
+            'tooltip': 's*x'
+        }
+    };
     explicitDict = {
         'imgSrc': '../images/danger.svg',
         'tooltip': 'Spotify or MusixMatch identify this song as explicit'
@@ -27,6 +63,8 @@
         'imgSrc': '../images/question.svg',
         'tooltip': 'This song could not be checked for copyright purposes'
     };
+
+    regexStrings = Object.keys(swearDict);
 
     //noinspection JSUnusedLocalSymbols
     function checkForValidUrl(tabId, ignore, tab) {
@@ -41,7 +79,10 @@
 
 //noinspection JSCheckFunctionSignatures
     chrome.runtime.onMessage.addListener(function (message, ignore, sendResponse) {
-        if (message.text === 'albumInfo') {
+        if (message.text === 'optionsChanged') {
+            checkedAlbums = {};
+            return;
+        } else if (message.text === 'albumInfo') {
             var albumInfo;
             var albumName;
             var artist;
@@ -51,12 +92,12 @@
             var numTracks;
             var requestLyrics;
             var checkNextTrack;
-            var swearDict;
-            var swears;
 
             chrome.storage.sync.get(null, function (userOptions) {
-                swearDict = userOptions;
-                swears = Object.keys(swearDict);
+                if (Object.keys(userOptions).length !== 0) {
+                    swearDict = userOptions;
+                    regexStrings = Object.keys(swearDict);
+                }
             });
 
             albumInfo = message.albumInfo;
@@ -107,12 +148,13 @@
                         }
 
                         listExists = false;
-                        swears.forEach(function (swear) {
-                            if (lyrics.search(new RegExp(swear, 'gi')) !== -1) {
+                        regexStrings.forEach(function (regexString) {
+                            console.log(lyrics.search(new RegExp(regexString, 'gi')));
+                            if (lyrics.search(new RegExp(regexString, 'gi')) !== -1) {
                                 if (listExists) {
-                                    lyricsInfo[track].push(swearDict[swear]);
+                                    lyricsInfo[track].push(swearDict[regexString]);
                                 } else {
-                                    lyricsInfo[track] = [swearDict[swear]];
+                                    lyricsInfo[track] = [swearDict[regexString]];
                                     listExists = true;
                                 }
                             }
@@ -149,7 +191,6 @@
                 });
             }
         }
-
         return true;
     });
 }());
