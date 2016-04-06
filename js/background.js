@@ -15,46 +15,10 @@
     'use strict';
 
     var urlRegex = /^https?:\/\/(?:[^\.]+\.)?play\.spotify\.com\/album/;
-    var swearDict;
     var explicitDict;
-    var swears;
     var unknownDict;
     var checkedAlbums = {};
 
-    swearDict = {
-        '(^s|s)hit[.!,;]?': {
-            'imgSrc': '../images/poo.svg',
-            'tooltip': 's**t'
-        },
-        '(^d|d)amn[.!,;]?': {
-            'imgSrc': '../images/dam.svg',
-            'tooltip': 'd**n'
-        },
-        '(^h|[^A-Za-z]h)ell[^A-Za-z]': {
-            'imgSrc': '../images/flame.svg',
-            'tooltip': 'h**l'
-        },
-        '(^f|f)uck': {
-            'imgSrc': '../images/bomb.svg',
-            'tooltip': 'f**k'
-        },
-        '(^b|b)itch': {
-            'imgSrc': '../images/dog.svg',
-            'tooltip': 'b**ch'
-        },
-        '(^b|b)astard': {
-            'imgSrc': '../images/baby.svg',
-            'tooltip': 'ba***rd'
-        },
-        '(^a|[ ]a)ss([ ]|[.!,])': {
-            'imgSrc': '../images/donkey.svg',
-            'tooltip': 'a**'
-        },
-        '(^s|[ ]s)ex([ ]|[.!,])': {
-            'imgSrc': '../images/love.svg',
-            'tooltip': 's*x'
-        }
-    };
     explicitDict = {
         'imgSrc': '../images/danger.svg',
         'tooltip': 'Spotify or MusixMatch identify this song as explicit'
@@ -63,8 +27,6 @@
         'imgSrc': '../images/question.svg',
         'tooltip': 'This song could not be checked for copyright purposes'
     };
-
-    swears = Object.keys(swearDict);
 
     //noinspection JSUnusedLocalSymbols
     function checkForValidUrl(tabId, ignore, tab) {
@@ -89,6 +51,13 @@
             var numTracks;
             var requestLyrics;
             var checkNextTrack;
+            var swearDict;
+            var swears;
+
+            chrome.storage.sync.get(null, function (userOptions) {
+                swearDict = userOptions;
+                swears = Object.keys(swearDict);
+            });
 
             albumInfo = message.albumInfo;
             albumName = albumInfo.name;

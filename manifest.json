@@ -7,6 +7,12 @@
     "48": "images/icon_48.png",
     "128": "images/icon_128.png"
   },
+  "options_page": "html/options.html",
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
   "background": {
     "scripts": ["js/jquery.min.js", "js/background.js"],
     "persistent": false
@@ -19,6 +25,7 @@
   ],
   "permissions": [
     "tabs",
+    "storage",
     "https://ajax.googleapis.com/",
     "http://api.musixmatch.com/ws/1.1/*"
   ],

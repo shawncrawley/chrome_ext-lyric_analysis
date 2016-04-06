@@ -1,0 +1,143 @@
+html {
+    padding: 20px;
+}
+#container-title {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+}
+.icon-help {
+    position: relative;
+    background: darkgrey;
+    width: 15px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: default;
+    font-weight: bold;
+}
+.icon-help:hover::after {
+    content: "Hover over an image for a second to see which word the image corresponds to";
+    position: absolute;
+    width: 200px;
+    text-align: left;
+    padding-left: 10px;
+    background-color: lightgray;
+    left: 20px;
+}
+#icon-help-1 {
+    top: 32px;
+    left: 435px;
+}
+#icon-help-1:hover::after {
+    content: "Delay-hover over an image to see which word (censored) the image corresponds to";
+}
+#icon-help-2 {
+    top: 19px;
+    left: 290px;
+}
+#icon-help-2:hover::after {
+    content: "Not case-sensitive. A default image will be provided";
+}
+img {
+    width: 75px;
+    height: 75px;
+}
+#container-options {
+    padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+}
+#status {
+    width: 125px;
+    background: lightgray;
+    text-align: center;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 5%;
+    right: 50%;
+    font-weight: bold;
+}
+.option {
+    padding: 30px;
+}
+.slider {
+    width: 80px;
+    height: 26px;
+    background: #333;
+    position: relative;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+
+    -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+    -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+}
+
+.slider:after {
+    content: 'OFF';
+    font: 12px/26px Arial, sans-serif;
+    color: #000;
+    position: absolute;
+    right: 10px;
+    z-index: 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+}
+
+.slider:before {
+    content: 'ON';
+    font: 12px/26px Arial, sans-serif;
+    color: #00bf00;
+    position: absolute;
+    left: 10px;
+    z-index: 0;
+    font-weight: bold;
+}
+
+.slider label {
+    display: block;
+    width: 34px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 1;
+    background: #fcfff4;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease;
+    -o-transition: all .4s ease;
+    -ms-transition: all .4s ease;
+    transition: all .4s ease;
+
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+
+    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+}
+
+.slider input {
+    display: none;
+}
+
+.slider input[type=checkbox]:checked + label {
+    left: 43px;
+}
