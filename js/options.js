@@ -16,7 +16,9 @@
     var addOptionToUI = function (wordEdited, regexString) {
         var randomId = Math.floor((Math.random() * 100000) + 1);
         var optionHtmlString = '';
+        var $userOptions = $('#user-options');
         optionHtmlString += '<div class="option">' +
+            '<div class="icon-remove-option" hidden>X</div>' +
             '<img src="../images/user-defined.svg" title="' + wordEdited + '">' +
             '<div class="slider">' +
             '<input type="checkbox" value="' + regexString + '" id="' + randomId + '" class="slider" checked />' +
@@ -24,7 +26,16 @@
             '</div>' +
             '</div>';
 
-        $('#user-options').append(optionHtmlString);
+        $userOptions.append(optionHtmlString);
+
+        $userOptions.find('.option:last-child')
+            .on('mouseenter', function () {
+                $(this).find('.icon-remove-option').prop('hidden', false);
+            })
+            .on('mouseleave', function () {
+                $(this).find('.icon-remove-option').prop('hidden', true);
+            });
+
     };
 
     var displayUserOptions = function () {
@@ -64,7 +75,7 @@
             }
         });
         chrome.storage.sync.set(swearDict, function () {
-           $('#status').text('Options saved');
+            $('#status').text('Options saved');
             setTimeout(function() {
                 $('#status').text('');
             }, 1000);
@@ -74,20 +85,29 @@
     };
 
     $(function () {
+        var inptTxtWord = $('#inpt-txt-word');
+
         displayUserOptions();
+
         $('#btn-add-word').on('click', function () {
-            onClickAddWord($('#inpt-txt-word').val());
-            $('#inpt-txt-word').val('');
+            onClickAddWord(inptTxtWord.val());
+            inptTxtWord.val('');
         });
+
         $('#btn-save-options').on('click', function () {
             chrome.storage.sync.clear();
             onClickSaveOptions();
         });
-        $('#inpt-txt-word').on('keyup', function(e) {
+
+        inptTxtWord.on('keyup', function(e) {
             if (e.which == 13) {
                 onClickAddWord($(this).val());
                 $(this).val('');
             }
+        });
+
+        $(document).on('click', '.icon-remove-option', function () {
+            $(this).parent().remove();
         })
     });
 }());

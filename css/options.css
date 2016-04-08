@@ -43,6 +43,7 @@ html {
 #icon-help-2:hover::after {
     content: "Not case-sensitive. A default image will be provided";
 }
+
 img {
     width: 75px;
     height: 75px;
@@ -66,6 +67,24 @@ img {
 }
 .option {
     padding: 30px;
+    position: relative;
+}
+#user-options .option:hover {
+    outline: 2px solid #333;
+}
+.icon-remove-option {
+    cursor: pointer;
+    position: absolute;
+    width: 24px;
+    text-align: center;
+    background-color: #D2D9CA;
+    right: 0;
+    top: 0;
+    font-weight: 900;
+    border-radius: 50%;
+    height: 24px;
+    font-size: 16px;
+    border: 3px solid #333;
 }
 .slider {
     width: 80px;
